@@ -21,9 +21,6 @@ dependencies = [
 [tool.setuptools.packages.find]
 exclude = ["tests", "tests.*"]
 
-[tool.setuptools.package-data]
-"*" = ["appdb_schemas/schema_v*.sql"]
-
 [project.optional-dependencies]
 testing = [
     "tomli",
