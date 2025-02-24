@@ -70,16 +70,10 @@ class FirmwareManifest:
         cls,
         data: dict[str, Any],
         *,
-        url: URL | None = None,
-        html_url: URL | None = None,
+        url: URL,
+        html_url: URL,
     ) -> Self:
         """Construct from JSON data."""
-        if url is None:
-            url = URL(data["url"])
-
-        if html_url is None:
-            html_url = URL(data["html_url"])
-
         return cls(
             url=url,
             html_url=html_url,
