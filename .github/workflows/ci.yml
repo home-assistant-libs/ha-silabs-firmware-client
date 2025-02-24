@@ -27,6 +27,7 @@ jobs:
 
       - name: Run pre-commit
         run: |
+          uv venv venv
           . venv/bin/activate
 
           uv pip install -e '.[testing]'
