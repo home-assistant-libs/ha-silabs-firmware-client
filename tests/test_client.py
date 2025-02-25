@@ -1,4 +1,5 @@
 import copy
+import dataclasses
 import json
 
 from aiohttp import ClientSession
@@ -42,9 +43,8 @@ async def test_firmware_update_client() -> None:
 
             # All firmwares validate
             for fw in manifest.firmwares:
-                async with session.get(fw.url, raise_for_status=True) as rsp:
-                    data = await rsp.read()
-                    fw.validate_firmware(data)
+                data = await client.async_fetch_firmware(fw)
+                assert isinstance(data, bytes)
 
             # Load things again
             http.get(API_URL, body=json.dumps(GITHUB_API_RESPONSE))
@@ -69,3 +69,34 @@ async def test_firmware_update_client_manifest_missing() -> None:
 
             with pytest.raises(ManifestMissing):
                 await client.async_update_data()
+
+
+async def test_fetch_firmware() -> None:
+    """Test fetching firmware."""
+    async with ClientSession() as session:
+        with aioresponses() as http:
+            http.get(API_URL, body=json.dumps(GITHUB_API_RESPONSE))
+
+            for asset in GITHUB_API_RESPONSE["assets"]:
+                assert (RESOURCES_ROOT / asset["name"]).is_relative_to(RESOURCES_ROOT)
+                http.get(
+                    asset["browser_download_url"],
+                    body=(RESOURCES_ROOT / asset["name"]).read_bytes(),
+                    repeat=True,
+                )
+
+            client = FirmwareUpdateClient(API_URL, session)
+            manifest = await client.async_update_data()
+
+            for meta in manifest.firmwares:
+                data = await client.async_fetch_firmware(meta)
+                assert isinstance(data, bytes)
+
+            # Invalid firmwares are caught during fetching
+            meta = dataclasses.replace(
+                manifest.firmwares[0],
+                checksum="sha3-256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            )
+
+            with pytest.raises(ValueError, match="Invalid firmware checksum"):
+                await client.async_fetch_firmware(meta)
