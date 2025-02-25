@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 
 from aiohttp import ClientSession
 from yarl import URL
 
-from .models import FirmwareManifest
+from .models import FirmwareManifest, FirmwareMetadata
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -70,3 +71,14 @@ class FirmwareUpdateClient:
         self._latest_release_url = release_url
 
         return self._latest_manifest
+
+    async def async_fetch_firmware(self, meta: FirmwareMetadata) -> bytes:
+        """Fetch the firmware file."""
+        async with self.session.get(meta.url, raise_for_status=True) as rsp:
+            data = await rsp.read()
+
+        await asyncio.get_running_loop().run_in_executor(
+            None, meta.validate_firmware, data
+        )
+
+        return data
