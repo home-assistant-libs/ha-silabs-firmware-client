@@ -100,45 +100,51 @@ async def test_fetch_firmware() -> None:
                 await client.async_fetch_firmware(meta)
 
 
-async def test_prerelease_flag() -> None:
-    """Test that the prerelease flag correctly filters releases."""
+async def test_update_prerelease_flag() -> None:
+    """Test that update_prerelease() correctly toggles between stable and prerelease."""
     async with ClientSession() as session:
         with aioresponses() as http:
-            # Mock releases
-            http.get(API_URL, body=json.dumps(GITHUB_RELEASES))
-
-            # Mock assets for the prerelease version (v2025.10.14 at index 0)
-            prerelease = GITHUB_RELEASES[0]
-            for asset in prerelease["assets"]:
-                # Use stable release assets for testing (same files)
-                asset_name = asset["name"]
-                if (RESOURCES_ROOT / asset_name).exists():
-                    http.get(
-                        asset["browser_download_url"],
-                        body=(RESOURCES_ROOT / asset_name).read_bytes(),
-                    )
-
-            # Client with prerelease=True should get the prerelease version
-            client = FirmwareUpdateClient(API_URL, session, prerelease=True)
-            manifest = await client.async_update_data()
-
-            assert manifest.html_url == URL(
-                "https://github.com/NabuCasa/silabs-firmware-builder/releases/tag/v2025.10.14"
-            )
-
-            # Test default behavior (prerelease=False)
-            http.get(API_URL, body=json.dumps(GITHUB_RELEASES))
+            # Mock all assets for both stable and prerelease versions
+            http.get(API_URL, body=json.dumps(GITHUB_RELEASES), repeat=True)
 
             for asset in GITHUB_API_RESPONSE["assets"]:
                 http.get(
                     asset["browser_download_url"],
                     body=(RESOURCES_ROOT / asset["name"]).read_bytes(),
+                    repeat=True,
                 )
 
-            client_stable = FirmwareUpdateClient(API_URL, session)
-            manifest_stable = await client_stable.async_update_data()
+            prerelease = GITHUB_RELEASES[0]
+            for asset in prerelease["assets"]:
+                http.get(
+                    asset["browser_download_url"],
+                    body=(RESOURCES_ROOT / asset["name"]).read_bytes(),
+                    repeat=True,
+                )
 
-            # Should get the latest stable release (v2025.09.30)
-            assert manifest_stable.html_url == URL(
+            # Start with prerelease=False (default)
+            client = FirmwareUpdateClient(API_URL, session)
+            manifest = await client.async_update_data()
+
+            # Should get stable release
+            assert manifest.html_url == URL(
+                "https://github.com/NabuCasa/silabs-firmware-builder/releases/tag/v2025.09.30"
+            )
+
+            # Toggle to prerelease=True
+            client.update_prerelease(True)
+            manifest = await client.async_update_data()
+
+            # Should now get prerelease
+            assert manifest.html_url == URL(
+                "https://github.com/NabuCasa/silabs-firmware-builder/releases/tag/v2025.10.14"
+            )
+
+            # Toggle back to prerelease=False
+            client.update_prerelease(False)
+            manifest = await client.async_update_data()
+
+            # Should get stable release again
+            assert manifest.html_url == URL(
                 "https://github.com/NabuCasa/silabs-firmware-builder/releases/tag/v2025.09.30"
             )

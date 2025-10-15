@@ -27,10 +27,14 @@ class FirmwareUpdateClient:
         """Initialize the firmware update client."""
         self.url = url
         self.session = session
-        self.prerelease = prerelease
 
+        self._prerelease = prerelease
         self._latest_release_url: str | None = None
         self._latest_manifest: FirmwareManifest | None = None
+
+    def update_prerelease(self, prerelease: bool) -> None:
+        """Update whether to include prereleases."""
+        self._prerelease = prerelease
 
     async def async_update_data(self) -> FirmwareManifest:
         async with self.session.get(
@@ -40,7 +44,7 @@ class FirmwareUpdateClient:
         ) as rsp:
             releases = await rsp.json()
 
-        if self.prerelease:
+        if self._prerelease:
             filtered_releases = releases
         else:
             # Ignore prereleases if we aren't opted in
