@@ -7,11 +7,14 @@ from yarl import URL
 
 RESOURCES_ROOT = pathlib.Path(__file__).parent / "resources"
 
-RAW_GITHUB_API_RESPONSE = (RESOURCES_ROOT / "github_latest.json").read_text()
+RAW_GITHUB_RELEASES = (RESOURCES_ROOT / "github_releases.json").read_text()
 RAW_MANIFEST_JSON = (RESOURCES_ROOT / "manifest.json").read_text()
 
-GITHUB_API_RESPONSE = json.loads(RAW_GITHUB_API_RESPONSE)
+GITHUB_RELEASES = json.loads(RAW_GITHUB_RELEASES)
 MANIFEST_JSON = json.loads(RAW_MANIFEST_JSON)
+
+# Use the latest stable release (v2025.09.30 at index 1, after prerelease)
+GITHUB_API_RESPONSE = GITHUB_RELEASES[1]
 
 assert GITHUB_API_RESPONSE["assets"][0]["name"] == "manifest.json"
 

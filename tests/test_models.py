@@ -45,6 +45,7 @@ def test_firmware_metadata_validate_firmware() -> None:
                 "sdk_version": "4.4.4",
             },
             "release_notes": None,
+            "release_summary": None,
         },
         url=MANIFEST_URL.parent / "test_firmware.gbl",
     )
@@ -78,6 +79,6 @@ def test_firmware_manifest() -> None:
     assert manifest.url == MANIFEST_URL
     assert manifest.html_url == MANIFEST_HTML_URL
     assert manifest.created_at.isoformat() == MANIFEST_JSON["metadata"]["created_at"]
-    assert len(manifest.firmwares) == 7
-    assert manifest.firmwares[0].filename == "skyconnect_zigbee_ncp_7.4.4.0.gbl"
-    assert manifest.firmwares[1].filename == "skyconnect_bootloader_2.4.2.gbl"
+    assert len(manifest.firmwares) == 10
+    assert manifest.firmwares[0].filename == "skyconnect_zigbee_ncp_7.4.4.3.gbl"
+    assert manifest.firmwares[1].filename == "zwave_stick_7.22.2.0.gbl"
