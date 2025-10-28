@@ -6,6 +6,7 @@ import asyncio
 import logging
 
 from aiohttp import ClientSession
+from packaging.version import Version
 from yarl import URL
 
 from .models import FirmwareManifest, FirmwareMetadata
@@ -20,22 +21,42 @@ class ManifestMissing(Exception):
 class FirmwareUpdateClient:
     """Client to manage firmware updates."""
 
-    def __init__(self, url: str, session: ClientSession) -> None:
+    def __init__(
+        self, url: str, session: ClientSession, *, prerelease: bool = False
+    ) -> None:
         """Initialize the firmware update client."""
         self.url = url
         self.session = session
 
+        self._prerelease = prerelease
         self._latest_release_url: str | None = None
         self._latest_manifest: FirmwareManifest | None = None
 
+    def update_prerelease(self, prerelease: bool) -> None:
+        """Update whether to include prereleases."""
+        self._prerelease = prerelease
+
     async def async_update_data(self) -> FirmwareManifest:
-        # Fetch the latest release metadata
         async with self.session.get(
             self.url,
             headers={"X-GitHub-Api-Version": "2022-11-28"},
             raise_for_status=True,
         ) as rsp:
-            obj = await rsp.json()
+            releases = await rsp.json()
+
+        if self._prerelease:
+            filtered_releases = releases
+        else:
+            # Ignore prereleases if we aren't opted in
+            filtered_releases = [r for r in releases if not r["prerelease"]]
+
+        # Pick the latest release
+        sorted_releases = sorted(
+            filtered_releases,
+            key=lambda r: Version(r["tag_name"]),
+            reverse=True,
+        )
+        obj = sorted_releases[0]
 
         release_url = obj["html_url"]
 

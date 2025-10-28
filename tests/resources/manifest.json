@@ -1,21 +1,120 @@
 {
   "metadata": {
-    "created_at": "2024-11-11T22:00:15.039462+00:00"
+    "created_at": "2025-09-30T16:50:35.014309+00:00"
   },
   "firmwares": [
     {
-      "filename": "skyconnect_zigbee_ncp_7.4.4.0.gbl",
-      "checksum": "sha3-256:2547620a7836319849d85aa1f54b4b87e6c6de5c1567eae6327cbb634fbc4336",
-      "size": 240312,
+      "filename": "skyconnect_zigbee_ncp_7.4.4.3.gbl",
+      "checksum": "sha3-256:6b244b7e941aa41f862f880bfea2c9ca98923afa5205a1d06760619633fc2837",
+      "size": 240300,
       "metadata": {
         "baudrate": 115200,
-        "ezsp_version": "7.4.4.0",
+        "ezsp_version": "7.4.4.3",
         "fw_type": "zigbee_ncp",
         "fw_variant": null,
         "metadata_version": 2,
         "sdk_version": "4.4.4"
       },
-      "release_notes": null
+      "release_notes": "Fix setup LED behavior for adapters with external indicator LEDs and tweak routing and child table sizes.",
+      "release_summary": null
+    },
+    {
+      "filename": "zwave_stick_7.22.2.0.gbl",
+      "checksum": "sha3-256:3382981c57c1e97fe08044a7c5a4a90a32fbd75a226a791612a7cc5b4d266e51",
+      "size": 188376,
+      "metadata": null,
+      "release_notes": null,
+      "release_summary": null
+    },
+    {
+      "filename": "yellow_zigbee_ncp_7.4.4.3.gbl",
+      "checksum": "sha3-256:d33945f4168b09def14fe319eef42629b188d86e59f71cb7a6d4933255e83060",
+      "size": 241460,
+      "metadata": {
+        "baudrate": 115200,
+        "ezsp_version": "7.4.4.3",
+        "fw_type": "zigbee_ncp",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "sdk_version": "4.4.4"
+      },
+      "release_notes": "Fix setup LED behavior for adapters with external indicator LEDs and tweak routing and child table sizes.",
+      "release_summary": null
+    },
+    {
+      "filename": "zbt2_zigbee_ncp_7.4.4.3_20250911_final.gbl",
+      "checksum": "sha3-256:1852d1cba5f8c20373c010fc5f2c113d8f8bd030bcb48a8b4ce8cda5524f141b",
+      "size": 262248,
+      "metadata": {
+        "baudrate": 460800,
+        "ezsp_version": "7.4.4.3",
+        "fw_type": "zigbee_ncp",
+        "fw_variant": "20250911_final",
+        "metadata_version": 2,
+        "sdk_version": "4.4.4"
+      },
+      "release_notes": "Fix setup LED behavior for adapters with external indicator LEDs and tweak routing and child table sizes.",
+      "release_summary": null
+    },
+    {
+      "filename": "zbt2_bootloader_2.4.3.gbl",
+      "checksum": "sha3-256:d1dca31f71a680885b4fe2b58d397a1ed3b4e947e536ca1ba6e03e4e2450f26d",
+      "size": 11808,
+      "metadata": {
+        "baudrate": 115200,
+        "fw_type": "gecko-bootloader",
+        "fw_variant": null,
+        "gecko_bootloader_version": "2.4.3",
+        "metadata_version": 2,
+        "sdk_version": "4.4.4"
+      },
+      "release_notes": null,
+      "release_summary": null
+    },
+    {
+      "filename": "zbt2_openthread_rcp_2.4.4.0_GitHub-7074a43e4_gsdk_4.4.4.gbl",
+      "checksum": "sha3-256:c0c6ac7eeff03a0686bc82b690e30613aaa46052a3d436b4e430ecf5907bac6c",
+      "size": 120404,
+      "metadata": {
+        "baudrate": 460800,
+        "fw_type": "openthread_rcp",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "ot_rcp_version": "SL-OPENTHREAD/2.4.4.0_GitHub-7074a43e4",
+        "sdk_version": "4.4.4"
+      },
+      "release_notes": "Initial release with the new firmware builder. This firmware is identical to the firmware bundled with the OpenThread Border Router addon.",
+      "release_summary": null
+    },
+    {
+      "filename": "skyconnect_openthread_rcp_2.4.4.0_GitHub-7074a43e4_gsdk_4.4.4.gbl",
+      "checksum": "sha3-256:bdbfa7b55df3cf5915201ea76b6bdbcc1665325b6f697cb69f529956d45d333a",
+      "size": 107908,
+      "metadata": {
+        "baudrate": 460800,
+        "fw_type": "openthread_rcp",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "ot_rcp_version": "SL-OPENTHREAD/2.4.4.0_GitHub-7074a43e4",
+        "sdk_version": "4.4.4"
+      },
+      "release_notes": "Initial release with the new firmware builder. This firmware is identical to the firmware bundled with the OpenThread Border Router addon.",
+      "release_summary": null
+    },
+    {
+      "filename": "yellow_openthread_rcp_2.4.4.0_GitHub-7074a43e4_gsdk_4.4.4.gbl",
+      "checksum": "sha3-256:50b016e6ab221a21a11e098fce98fdd389a55c823e5da91bb8cedab663841ad4",
+      "size": 109048,
+      "metadata": {
+        "baudrate": 460800,
+        "fw_type": "openthread_rcp",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "ot_rcp_version": "SL-OPENTHREAD/2.4.4.0_GitHub-7074a43e4",
+        "sdk_version": "4.4.4"
+      },
+      "release_notes": "Initial release with the new firmware builder. This firmware is identical to the firmware bundled with the OpenThread Border Router addon.",
+      "release_summary": null
     },
     {
       "filename": "skyconnect_bootloader_2.4.2.gbl",
@@ -29,56 +128,8 @@
         "metadata_version": 2,
         "sdk_version": "4.4.4"
       },
-      "release_notes": null
-    },
-    {
-      "filename": "yellow_zigbee_ncp_7.4.4.0.gbl",
-      "checksum": "sha3-256:94a297165528211addcadd8dc69f5172fc682d6009c9e7e35cd93945218538a8",
-      "size": 241480,
-      "metadata": {
-        "baudrate": 115200,
-        "ezsp_version": "7.4.4.0",
-        "fw_type": "zigbee_ncp",
-        "fw_variant": null,
-        "metadata_version": 2,
-        "sdk_version": "4.4.4"
-      },
-      "release_notes": null
-    },
-    {
-      "filename": "skyconnect_openthread_rcp_2.4.4.0_GitHub-7074a43e4_gsdk_4.4.4.gbl",
-      "checksum": "sha3-256:37f455c322ccdcfa150fd0f7b5dd0d8d9f81479a83bfa74807b483a16813b943",
-      "size": 107908,
-      "metadata": {
-        "baudrate": 460800,
-        "fw_type": "openthread_rcp",
-        "fw_variant": null,
-        "metadata_version": 2,
-        "ot_rcp_version": "SL-OPENTHREAD/2.4.4.0_GitHub-7074a43e4",
-        "sdk_version": "4.4.4"
-      },
-      "release_notes": null
-    },
-    {
-      "filename": "zwave_stick_7.22.2.0.gbl",
-      "checksum": "sha3-256:ed67c8f464716efa0ab3d045fe8af00986b61eaafd8420ed9c81d9ecc956ea69",
-      "size": 188376,
-      "metadata": null,
-      "release_notes": null
-    },
-    {
-      "filename": "yellow_openthread_rcp_2.4.4.0_GitHub-7074a43e4_gsdk_4.4.4.gbl",
-      "checksum": "sha3-256:5a0f5e2a20b77d4033f7deb1d772dfefba76c71e4aee7b9ed47ffccafa504b48",
-      "size": 109048,
-      "metadata": {
-        "baudrate": 460800,
-        "fw_type": "openthread_rcp",
-        "fw_variant": null,
-        "metadata_version": 2,
-        "ot_rcp_version": "SL-OPENTHREAD/2.4.4.0_GitHub-7074a43e4",
-        "sdk_version": "4.4.4"
-      },
-      "release_notes": null
+      "release_notes": null,
+      "release_summary": null
     },
     {
       "filename": "yellow_bootloader_2.4.2.gbl",
@@ -92,7 +143,8 @@
         "metadata_version": 2,
         "sdk_version": "4.4.4"
       },
-      "release_notes": null
+      "release_notes": null,
+      "release_summary": null
     }
   ]
 }

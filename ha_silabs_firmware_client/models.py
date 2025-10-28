@@ -18,6 +18,7 @@ class FirmwareMetadata:
     release_notes: str | None
     metadata: dict[str, str | int | None]
     url: URL
+    release_summary: str | None = None
 
     @classmethod
     def from_json(cls, data: dict[str, Any], *, url: URL) -> Self:
@@ -30,6 +31,7 @@ class FirmwareMetadata:
             metadata=data["metadata"],
             # The manifest does not contain the full URL so we pass it externally
             url=url,
+            release_summary=data.get("release_summary"),
         )
 
     def as_dict(self) -> dict[str, Any]:
@@ -41,6 +43,7 @@ class FirmwareMetadata:
             "release_notes": self.release_notes,
             "metadata": self.metadata,
             "url": str(self.url),
+            "release_summary": self.release_summary,
         }
 
     def validate_firmware(self, data: bytes) -> None:
