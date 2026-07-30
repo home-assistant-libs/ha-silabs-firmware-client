@@ -68,6 +68,18 @@ class FirmwareUpdateClient:
                 a for a in obj["assets"] if a["name"] == "manifest.json"
             )
         except StopIteration as exc:
+            # Firmware builds take the better part of an hour, so a release exists for
+            # a while before its assets finish uploading. The previous manifest is
+            # still perfectly usable in the meantime, so keep serving it rather than
+            # leaving the caller with nothing. `_latest_release_url` is deliberately
+            # left alone so that the next poll picks up the assets once they land.
+            if self._manifest is not None:
+                _LOGGER.debug(
+                    "Release %s has no manifest yet, reusing the previous one",
+                    release_url,
+                )
+                return self._manifest
+
             raise ManifestMissing(
                 "GitHub release assets haven't been uploaded yet"
             ) from exc

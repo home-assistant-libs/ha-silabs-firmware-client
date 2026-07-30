@@ -12,7 +12,7 @@ from yarl import URL
 def normalize_version(version: str) -> str:
     """Strip runtime-reported build suffixes so versions match changelog entries."""
 
-    # dapters report richer version strings than the ones recorded in the changelog:
+    # Adapters report richer version strings than the ones recorded in the changelog:
     # EmberZNet appends ` build N (timestamp)` and OpenThread appends `; EFR32; <date>`.
     return version.partition(";")[0].partition(" build ")[0].strip()
 
@@ -144,9 +144,9 @@ class FirmwareMetadata:
     ) -> tuple[ChangelogEntry, ...]:
         """Return every changelog entry between `current_version` and this firmware.
 
-        Entries are newest first and end with this firmware's own version, inclusive.
-        An unrecognized `current_version`, such as a custom build, yields only this
-        firmware's own entry.
+        Entries are newest first, so the tuple starts with this firmware's own version
+        and ends with the one released just after `current_version`. An unrecognized
+        `current_version`, such as a custom build, yields only this firmware's entry.
         """
         if self.version is None or not self.changelog:
             return ()
@@ -202,7 +202,8 @@ def _firmware_changelog(
 
     # Manifests predating `changelogs` carry only the shipped version's entry, split
     # across two inverted fields: `release_notes` is the summary, `release_summary`
-    # the detailed body.
+    # the detailed body. `release_notes` has existed in every published manifest,
+    # but `release_summary` was only added in v2025.04.04, so it may be absent.
     version = _manifest_firmware_version(data)
 
     if version is None or data["release_notes"] is None:

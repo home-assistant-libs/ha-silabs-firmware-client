@@ -144,6 +144,36 @@ async def test_firmware_update_client_manifest_missing(
             await client.async_update_data()
 
 
+async def test_manifest_missing_falls_back_to_cache(start_server: StartServer) -> None:
+    """Test that a release whose assets are still uploading reuses the last manifest."""
+    published = copy.deepcopy(GITHUB_RELEASES)
+    latest = next(
+        r for r in published if r["tag_name"] == GITHUB_API_RESPONSE["tag_name"]
+    )
+
+    # A newer release exists, but its build has not finished uploading assets yet
+    pending = copy.deepcopy(latest)
+    pending["tag_name"] = "v2026.03.01"
+    pending["html_url"] = f"{RELEASE_TAG_URL}/v2026.03.01"
+    pending["assets"] = []
+
+    server = await start_server(published)
+
+    async with ClientSession() as session:
+        client = FirmwareUpdateClient(str(server.make_url("/releases")), session)
+        manifest = await client.async_update_data()
+        assert manifest.html_url == URL(f"{RELEASE_TAG_URL}/v2026.02.23")
+
+        # The half-published release does not invalidate what we already have
+        published.append(pending)
+        assert await client.async_update_data() is manifest
+
+        # Once its assets land, it is picked up
+        pending["assets"] = copy.deepcopy(latest["assets"])
+        new_manifest = await client.async_update_data()
+        assert new_manifest.html_url == URL(f"{RELEASE_TAG_URL}/v2026.03.01")
+
+
 async def test_fetch_firmware(start_server: StartServer) -> None:
     """Test fetching firmware."""
     firmware = b"Test firmware"
