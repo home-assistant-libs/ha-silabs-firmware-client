@@ -29,8 +29,8 @@ class FirmwareUpdateClient:
         self.session = session
 
         self._prerelease = prerelease
+        self._manifest: FirmwareManifest | None = None
         self._latest_release_url: str | None = None
-        self._latest_manifest: FirmwareManifest | None = None
 
     def update_prerelease(self, prerelease: bool) -> None:
         """Update whether to include prereleases."""
@@ -60,10 +60,8 @@ class FirmwareUpdateClient:
 
         release_url = obj["html_url"]
 
-        if release_url == self._latest_release_url:
-            _LOGGER.debug("GitHub release URL has not changed")
-            assert self._latest_manifest is not None
-            return self._latest_manifest
+        if release_url == self._latest_release_url and self._manifest is not None:
+            return self._manifest
 
         try:
             manifest_asset = next(
@@ -88,10 +86,10 @@ class FirmwareUpdateClient:
 
         # Only set the release URL down here to make sure that we don't invalidate
         # future requests if an exception is raised halfway through this method
-        self._latest_manifest = manifest
+        self._manifest = manifest
         self._latest_release_url = release_url
 
-        return self._latest_manifest
+        return self._manifest
 
     async def async_fetch_firmware(self, meta: FirmwareMetadata) -> bytes:
         """Fetch the firmware file."""
