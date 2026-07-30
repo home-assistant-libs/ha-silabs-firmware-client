@@ -31,7 +31,6 @@ testing = [
     "pytest-asyncio",
     "pytest-cov",
     "pytest-timeout",
-    "aioresponses",
 ]
 
 [tool.setuptools-git-versioning]
