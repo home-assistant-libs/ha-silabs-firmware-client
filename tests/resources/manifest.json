@@ -1,148 +1,264 @@
 {
   "metadata": {
-    "created_at": "2025-09-30T16:50:35.014309+00:00"
+    "created_at": "2026-02-24T01:01:40.894834+00:00"
+  },
+  "changelogs": {
+    "openthread_rcp": [
+      {
+        "version": "SL-OPENTHREAD/3.1.0.0_GitHub-fb274efe6",
+        "summary": "Built with OpenThread 3.1.0 from Simplicity SDK 2026.6.0, adding automatic recovery from firmware stalls and fixing serial link lockups.",
+        "notes": "- Built with OpenThread 3.1.0 from Simplicity SDK 2026.6.0, up from Simplicity SDK 2025.6.2.\n- Added a watchdog that resets the adapter if the firmware gets stuck.\n- Fixed the serial link locking up when the host stopped reading while hardware flow control was enabled (ZBT-1 and Yellow). Transmits now give up after a short bounded wait and drop the byte, so the adapter keeps running and the host can recover.\n- Doubled the host transmit buffer from 2048 to 4096 bytes, reducing dropped frames when a burst of network traffic arrives at once.\n- Fixed a Green Power packet filter that misclassified zero-payload frames by reading past the end of the frame."
+      },
+      {
+        "version": "SL-OPENTHREAD/3.0.2.0_GitHub-61e43cffb",
+        "summary": "Built with OpenThread 3.0.2 from Simplicity SDK 2025.12.3.",
+        "notes": null
+      },
+      {
+        "version": "SL-OPENTHREAD/2.7.2.0_GitHub-fb0446f53",
+        "summary": "Built with Simplicity SDK 2025.6.2.",
+        "notes": null
+      },
+      {
+        "version": "2.4.7.0_GitHub-fb0446f53",
+        "summary": "Built with Gecko SDK 4.5.0.",
+        "notes": null
+      },
+      {
+        "version": "2.4.6.0_GitHub-bdb394eb3",
+        "summary": "Built with Gecko SDK 4.4.6.",
+        "notes": null
+      },
+      {
+        "version": "SL-OPENTHREAD/2.4.4.0_GitHub-7074a43e4",
+        "summary": "Initial release with the new firmware builder. This firmware is identical to the firmware bundled with the OpenThread Border Router addon.",
+        "notes": null
+      }
+    ],
+    "zigbee_ncp": [
+      {
+        "version": "9.1.0.0",
+        "summary": "Built with EmberZNet 9.1 from Simplicity SDK 2026.6.0, migrating us from Gecko SDK to Simplicity SDK. Faster message sending, Zigbee 4.0 support, and a few increased buffers.",
+        "notes": "- Built with EmberZNet 9.1 from Simplicity SDK 2026.6.0.\n- Added Zigbee 4.0 support. This is fully backwards compatible with Zigbee 3.0 and 1.2.\n- Sending a message now takes a single request instead of up to three with a new XNCP API. This reduces latency when sending requests with network coordinators.\n- Increased network table sizes. On ZBT-2 the route and source route tables hold 254 entries, the address table 128, and up to 128 messages can be in flight at once, with a larger packet buffer heap. On SkyConnect and Yellow, 64 messages can be in flight and the address table holds 32 entries.\n- Increased the serial receive buffer from 128 to 512 bytes."
+      },
+      {
+        "version": "9.0.2.0",
+        "summary": "Built with EmberZNet 9.0 from Simplicity SDK 2025.12.3.",
+        "notes": null
+      },
+      {
+        "version": "7.5.1.0",
+        "summary": "Built with Gecko SDK 4.5.0. This includes a new feature to restore routes on adapter startup, speeding up network responsiveness after a reset.",
+        "notes": null
+      },
+      {
+        "version": "7.5.0.0",
+        "summary": "Built with Gecko SDK 4.4.6.",
+        "notes": null
+      },
+      {
+        "version": "7.4.4.6",
+        "summary": "For adapters that support RGB LEDs, fix the color XNCP command parsing. Allow the adapter to signal preferred TX power settings for a given regulatory domain.",
+        "notes": null
+      },
+      {
+        "version": "7.4.4.5",
+        "summary": "Increase UART RX buffer size from 32 to 128 bytes to fix issues with OTA when using Z2M. For adapters with pinhole reset buttons, enable the reset button to wipe network settings. This is a bugfix re-release of 7.4.4.4.",
+        "notes": null
+      },
+      {
+        "version": "7.4.4.4",
+        "summary": "Increase UART RX buffer size from 32 to 128 bytes to fix issues with OTA when using Z2M. For adapters with pinhole reset buttons, enable the reset button to wipe network settings.",
+        "notes": null
+      },
+      {
+        "version": "7.4.4.3",
+        "summary": "Fix setup LED behavior for adapters with external indicator LEDs and tweak routing and child table sizes.",
+        "notes": null
+      },
+      {
+        "version": "7.4.4.2",
+        "summary": "Allow receiving events from devices using unregistered group IDs and increase routing and child table sizes.",
+        "notes": null
+      },
+      {
+        "version": "7.4.4.1",
+        "summary": "Re-release of 7.4.4.0 that fixes a regression with group addressing present in the previous release, affecting some devices like IKEA remotes.",
+        "notes": null
+      },
+      {
+        "version": "7.4.4.0",
+        "summary": "Initial release with the new firmware builder. This release fixes minor bugs related to adapter migration and includes other improvements in the underlying SDK.",
+        "notes": null
+      }
+    ]
   },
   "firmwares": [
     {
-      "filename": "skyconnect_zigbee_ncp_7.4.4.3.gbl",
-      "checksum": "sha3-256:6b244b7e941aa41f862f880bfea2c9ca98923afa5205a1d06760619633fc2837",
-      "size": 240300,
-      "metadata": {
-        "baudrate": 115200,
-        "ezsp_version": "7.4.4.3",
-        "fw_type": "zigbee_ncp",
-        "fw_variant": null,
-        "metadata_version": 2,
-        "sdk_version": "4.4.4"
-      },
-      "release_notes": "Fix setup LED behavior for adapters with external indicator LEDs and tweak routing and child table sizes.",
-      "release_summary": null
-    },
-    {
-      "filename": "zwave_stick_7.22.2.0.gbl",
-      "checksum": "sha3-256:3382981c57c1e97fe08044a7c5a4a90a32fbd75a226a791612a7cc5b4d266e51",
-      "size": 188376,
-      "metadata": null,
-      "release_notes": null,
-      "release_summary": null
-    },
-    {
-      "filename": "yellow_zigbee_ncp_7.4.4.3.gbl",
-      "checksum": "sha3-256:d33945f4168b09def14fe319eef42629b188d86e59f71cb7a6d4933255e83060",
-      "size": 241460,
-      "metadata": {
-        "baudrate": 115200,
-        "ezsp_version": "7.4.4.3",
-        "fw_type": "zigbee_ncp",
-        "fw_variant": null,
-        "metadata_version": 2,
-        "sdk_version": "4.4.4"
-      },
-      "release_notes": "Fix setup LED behavior for adapters with external indicator LEDs and tweak routing and child table sizes.",
-      "release_summary": null
-    },
-    {
-      "filename": "zbt2_zigbee_ncp_7.4.4.3_20250911_final.gbl",
-      "checksum": "sha3-256:1852d1cba5f8c20373c010fc5f2c113d8f8bd030bcb48a8b4ce8cda5524f141b",
-      "size": 262248,
-      "metadata": {
-        "baudrate": 460800,
-        "ezsp_version": "7.4.4.3",
-        "fw_type": "zigbee_ncp",
-        "fw_variant": "20250911_final",
-        "metadata_version": 2,
-        "sdk_version": "4.4.4"
-      },
-      "release_notes": "Fix setup LED behavior for adapters with external indicator LEDs and tweak routing and child table sizes.",
-      "release_summary": null
-    },
-    {
-      "filename": "zbt2_bootloader_2.4.3.gbl",
-      "checksum": "sha3-256:d1dca31f71a680885b4fe2b58d397a1ed3b4e947e536ca1ba6e03e4e2450f26d",
-      "size": 11808,
-      "metadata": {
-        "baudrate": 115200,
-        "fw_type": "gecko-bootloader",
-        "fw_variant": null,
-        "gecko_bootloader_version": "2.4.3",
-        "metadata_version": 2,
-        "sdk_version": "4.4.4"
-      },
-      "release_notes": null,
-      "release_summary": null
-    },
-    {
-      "filename": "zbt2_openthread_rcp_2.4.4.0_GitHub-7074a43e4_gsdk_4.4.4.gbl",
-      "checksum": "sha3-256:c0c6ac7eeff03a0686bc82b690e30613aaa46052a3d436b4e430ecf5907bac6c",
-      "size": 120404,
-      "metadata": {
-        "baudrate": 460800,
-        "fw_type": "openthread_rcp",
-        "fw_variant": null,
-        "metadata_version": 2,
-        "ot_rcp_version": "SL-OPENTHREAD/2.4.4.0_GitHub-7074a43e4",
-        "sdk_version": "4.4.4"
-      },
-      "release_notes": "Initial release with the new firmware builder. This firmware is identical to the firmware bundled with the OpenThread Border Router addon.",
-      "release_summary": null
-    },
-    {
-      "filename": "skyconnect_openthread_rcp_2.4.4.0_GitHub-7074a43e4_gsdk_4.4.4.gbl",
-      "checksum": "sha3-256:bdbfa7b55df3cf5915201ea76b6bdbcc1665325b6f697cb69f529956d45d333a",
-      "size": 107908,
-      "metadata": {
-        "baudrate": 460800,
-        "fw_type": "openthread_rcp",
-        "fw_variant": null,
-        "metadata_version": 2,
-        "ot_rcp_version": "SL-OPENTHREAD/2.4.4.0_GitHub-7074a43e4",
-        "sdk_version": "4.4.4"
-      },
-      "release_notes": "Initial release with the new firmware builder. This firmware is identical to the firmware bundled with the OpenThread Border Router addon.",
-      "release_summary": null
-    },
-    {
-      "filename": "yellow_openthread_rcp_2.4.4.0_GitHub-7074a43e4_gsdk_4.4.4.gbl",
-      "checksum": "sha3-256:50b016e6ab221a21a11e098fce98fdd389a55c823e5da91bb8cedab663841ad4",
-      "size": 109048,
-      "metadata": {
-        "baudrate": 460800,
-        "fw_type": "openthread_rcp",
-        "fw_variant": null,
-        "metadata_version": 2,
-        "ot_rcp_version": "SL-OPENTHREAD/2.4.4.0_GitHub-7074a43e4",
-        "sdk_version": "4.4.4"
-      },
-      "release_notes": "Initial release with the new firmware builder. This firmware is identical to the firmware bundled with the OpenThread Border Router addon.",
-      "release_summary": null
-    },
-    {
       "filename": "skyconnect_bootloader_2.4.2.gbl",
-      "checksum": "sha3-256:cca812ed7134a158da652ca856936323ded2a51851157a29d9a0080c91a29a32",
-      "size": 11264,
+      "version": "2.4.2",
+      "checksum": "sha3-256:f56372b35f6ab479c63618663c0225533e1dee2840ca96af16bc09264e4a545b",
+      "size": 11292,
       "metadata": {
         "baudrate": 115200,
         "fw_type": "gecko-bootloader",
         "fw_variant": null,
         "gecko_bootloader_version": "2.4.2",
         "metadata_version": 2,
-        "sdk_version": "4.4.4"
+        "sdk_version": "4.5.0"
       },
       "release_notes": null,
+      "release_summary": null
+    },
+    {
+      "filename": "skyconnect_openthread_rcp_2.7.2.0_GitHub-fb0446f53_gsdk_2025.6.2.gbl",
+      "version": "SL-OPENTHREAD/2.7.2.0_GitHub-fb0446f53",
+      "checksum": "sha3-256:fbd12d3bbdd5a1eb04853dc891409953fcf93604ed79506a129c8eb4af9b05d2",
+      "size": 99952,
+      "metadata": {
+        "baudrate": 460800,
+        "fw_type": "openthread_rcp",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "ot_rcp_version": "SL-OPENTHREAD/2.7.2.0_GitHub-fb0446f53",
+        "sdk_version": "2025.6.2"
+      },
+      "release_notes": "Built with Simplicity SDK 2025.6.2.",
+      "release_summary": null
+    },
+    {
+      "filename": "skyconnect_zigbee_ncp_7.5.1.0.gbl",
+      "version": "7.5.1.0",
+      "checksum": "sha3-256:c70313622941e953f2691111170a080675bd5fa2c0a9f26c86fe540f50339c4b",
+      "size": 241512,
+      "metadata": {
+        "baudrate": 115200,
+        "ezsp_version": "7.5.1.0",
+        "fw_type": "zigbee_ncp",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "sdk_version": "4.5.0"
+      },
+      "release_notes": "Built with Gecko SDK 4.5.0. This includes a new feature to restore routes on adapter startup, speeding up network responsiveness after a reset.",
       "release_summary": null
     },
     {
       "filename": "yellow_bootloader_2.4.2.gbl",
-      "checksum": "sha3-256:cd68f72fcb5cbc4bd5f3b69a4b234616bba869f1dc307ec5851654a90642cd8d",
-      "size": 11392,
+      "version": "2.4.2",
+      "checksum": "sha3-256:9cab0965fc2b1c4152f1d110feb63cf782fcbb1def6a5dc1c8e9e0646248191d",
+      "size": 11388,
       "metadata": {
         "baudrate": 115200,
         "fw_type": "gecko-bootloader",
         "fw_variant": null,
         "gecko_bootloader_version": "2.4.2",
         "metadata_version": 2,
-        "sdk_version": "4.4.4"
+        "sdk_version": "4.5.0"
       },
+      "release_notes": null,
+      "release_summary": null
+    },
+    {
+      "filename": "yellow_openthread_rcp_2.7.2.0_GitHub-fb0446f53_gsdk_2025.6.2.gbl",
+      "version": "SL-OPENTHREAD/2.7.2.0_GitHub-fb0446f53",
+      "checksum": "sha3-256:2d40796760f2dfdb54ca1a1c2d9fca91c91f0a084d74a93c5b7fc3e77e2d60ff",
+      "size": 101164,
+      "metadata": {
+        "baudrate": 460800,
+        "fw_type": "openthread_rcp",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "ot_rcp_version": "SL-OPENTHREAD/2.7.2.0_GitHub-fb0446f53",
+        "sdk_version": "2025.6.2"
+      },
+      "release_notes": "Built with Simplicity SDK 2025.6.2.",
+      "release_summary": null
+    },
+    {
+      "filename": "yellow_zigbee_ncp_7.5.1.0.gbl",
+      "version": "7.5.1.0",
+      "checksum": "sha3-256:ddf53003e4827688b8f084b6c279c2c1f543bbc976649ad4a6c7b9d4a6d342cf",
+      "size": 242660,
+      "metadata": {
+        "baudrate": 115200,
+        "ezsp_version": "7.5.1.0",
+        "fw_type": "zigbee_ncp",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "sdk_version": "4.5.0"
+      },
+      "release_notes": "Built with Gecko SDK 4.5.0. This includes a new feature to restore routes on adapter startup, speeding up network responsiveness after a reset.",
+      "release_summary": null
+    },
+    {
+      "filename": "zbt2_bootloader_2.4.4.gbl",
+      "version": "2.4.4",
+      "checksum": "sha3-256:fbc5b6d3b312ebd22db7da326a62871b3595b65b8c8db6ab9e05809ce1417b26",
+      "size": 11868,
+      "metadata": {
+        "baudrate": 115200,
+        "fw_type": "gecko-bootloader",
+        "fw_variant": null,
+        "gecko_bootloader_version": "2.4.4",
+        "metadata_version": 2,
+        "sdk_version": "4.5.0"
+      },
+      "release_notes": null,
+      "release_summary": null
+    },
+    {
+      "filename": "zbt2_openthread_rcp_2.7.2.0_GitHub-fb0446f53_gsdk_2025.6.2.gbl",
+      "version": "SL-OPENTHREAD/2.7.2.0_GitHub-fb0446f53",
+      "checksum": "sha3-256:8a7bb812d8043025e271da7e9983b45d023af10153443b9616494a15ee2035c3",
+      "size": 134288,
+      "metadata": {
+        "baudrate": 460800,
+        "fw_type": "openthread_rcp",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "ot_rcp_version": "SL-OPENTHREAD/2.7.2.0_GitHub-fb0446f53",
+        "sdk_version": "2025.6.2"
+      },
+      "release_notes": "Built with Simplicity SDK 2025.6.2.",
+      "release_summary": null
+    },
+    {
+      "filename": "zbt2_router_2025.6.2.gbl",
+      "version": null,
+      "checksum": "sha3-256:a02e91953c82706d43a17508bb43e3a38e592328e61054db4e65e3959bde4ee6",
+      "size": 328116,
+      "metadata": {
+        "baudrate": 115200,
+        "fw_type": "zigbee_router",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "sdk_version": "2025.6.2"
+      },
+      "release_notes": null,
+      "release_summary": null
+    },
+    {
+      "filename": "zbt2_zigbee_ncp_7.5.1.0_None.gbl",
+      "version": "7.5.1.0",
+      "checksum": "sha3-256:6a2c18980ee795dac2fd4aa101a8093845f314055df997f2f7ee49eed74ea0b7",
+      "size": 264012,
+      "metadata": {
+        "baudrate": 460800,
+        "ezsp_version": "7.5.1.0",
+        "fw_type": "zigbee_ncp",
+        "fw_variant": null,
+        "metadata_version": 2,
+        "sdk_version": "4.5.0"
+      },
+      "release_notes": "Built with Gecko SDK 4.5.0. This includes a new feature to restore routes on adapter startup, speeding up network responsiveness after a reset.",
+      "release_summary": null
+    },
+    {
+      "filename": "zwa2_controller_1.2.0.gbl",
+      "version": null,
+      "checksum": "sha3-256:696d5f2c982da28db57125b719132d93c6ebdc17cc446f59572a582fc262bfd8",
+      "size": 146492,
+      "metadata": null,
       "release_notes": null,
       "release_summary": null
     }
