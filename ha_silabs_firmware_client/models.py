@@ -33,6 +33,18 @@ def firmware_version(metadata: dict[str, Any]) -> str | None:
     return cast(str, metadata[version_key])
 
 
+def _manifest_firmware_version(data: dict[str, Any]) -> str | None:
+    """Extract a firmware's version from its entry in a manifest."""
+    if data["metadata"] is None:
+        return None
+
+    # Manifests predating the `version` field
+    if "version" not in data:
+        return firmware_version(data["metadata"])
+
+    return cast("str | None", data["version"])
+
+
 @dataclass(frozen=True)
 class ChangelogEntry:
     """A single released version's changelog."""
@@ -101,14 +113,6 @@ class FirmwareMetadata:
         changelog: tuple[ChangelogEntry, ...] = (),
     ) -> Self:
         """Construct from JSON data."""
-        if data["metadata"] is None:
-            version = None
-        elif "version" in data:
-            version = data["version"]
-        else:
-            # Manifests predating the `version` field
-            version = firmware_version(data["metadata"])
-
         return cls(
             filename=data["filename"],
             checksum=data["checksum"],
@@ -118,7 +122,7 @@ class FirmwareMetadata:
             # The manifest does not contain the full URL so we pass it externally
             url=url,
             release_summary=data.get("release_summary"),
-            version=version,
+            version=_manifest_firmware_version(data),
             changelog=changelog,
         )
 
@@ -147,13 +151,11 @@ class FirmwareMetadata:
         if self.version is None or not self.changelog:
             return ()
 
-        # Changelog order is authoritative: firmware versions are not comparable
+        # Changelog order is authoritative: firmware versions are not comparable. The
+        # builder refuses to publish a firmware missing its own entry, so this raises
+        # rather than papering over a malformed manifest.
         versions = [normalize_version(e.version) for e in self.changelog]
-
-        try:
-            to_index = versions.index(normalize_version(self.version))
-        except ValueError:
-            return ()
+        to_index = versions.index(normalize_version(self.version))
 
         if current_version is None:
             return (self.changelog[to_index],)
@@ -201,15 +203,9 @@ def _firmware_changelog(
     # Manifests predating `changelogs` carry only the shipped version's entry, split
     # across two inverted fields: `release_notes` is the summary, `release_summary`
     # the detailed body.
-    if data["release_notes"] is None:
-        return ()
+    version = _manifest_firmware_version(data)
 
-    if "version" in data:
-        version = data["version"]
-    else:
-        version = firmware_version(data["metadata"])
-
-    if version is None:
+    if version is None or data["release_notes"] is None:
         return ()
 
     return (
