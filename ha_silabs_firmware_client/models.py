@@ -14,7 +14,9 @@ def normalize_version(version: str) -> str:
 
     # Adapters report richer version strings than the ones recorded in the changelog:
     # EmberZNet appends ` build N (timestamp)` and OpenThread appends `; EFR32; <date>`.
-    return version.partition(";")[0].partition(" build ")[0].strip()
+    # Some OpenThread changelog entries also omit the `SL-OPENTHREAD/` prefix.
+    version = version.partition(";")[0].partition(" build ")[0].strip()
+    return version.removeprefix("SL-OPENTHREAD/")
 
 
 def firmware_version(metadata: dict[str, Any]) -> str | None:

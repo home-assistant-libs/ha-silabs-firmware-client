@@ -148,12 +148,16 @@ def test_changelog_since_openthread() -> None:
         == ()
     )
 
-    # Older entries predate the `SL-OPENTHREAD/` prefix, which does not stop them
-    # from being matched
-    assert [e.version for e in fw.changelog_since("2.4.6.0_GitHub-bdb394eb3")] == [
-        "SL-OPENTHREAD/2.7.2.0_GitHub-fb0446f53",
-        "2.4.7.0_GitHub-fb0446f53",
-    ]
+    # Some entries omit the `SL-OPENTHREAD/` prefix, which does not stop them from
+    # being matched with or without it
+    for current_version in (
+        "2.4.6.0_GitHub-bdb394eb3",
+        "SL-OPENTHREAD/2.4.6.0_GitHub-bdb394eb3; EFR32; Feb 10 2025 10:00:00",
+    ):
+        assert [e.version for e in fw.changelog_since(current_version)] == [
+            "SL-OPENTHREAD/2.7.2.0_GitHub-fb0446f53",
+            "2.4.7.0_GitHub-fb0446f53",
+        ]
 
 
 def test_changelog_without_version() -> None:
